@@ -1,0 +1,14 @@
+import { getCustomerViewFormHtml, getOrderViewFormHtml } from "../components/types/form-components.js";
+import { ORDER_VIEW_FORM_ID, ORDER_VIEW, CUSTOMER_VIEW, CUSTOMER_VIEW_FORM_ID, PENDING_STEP, PENDING_FORM_ID, ORDER_STEP, ORDER_FORM_ID, CONFIRM_REGISTRATION_STEP, CONFIRM_DATA_FORM_ID as CONFIRM_DATA_FORM_ID, REGISTRATION_EMAIL_SENT_FORM_ID, REGISTRATION_EMAIL_SENT_STEP, RECIPIENT_FORM_ID, RECIPIENT_STEP, CONFIRM_ORDER_STEP, ORDER_EMAIL_SENT_STEP, ORDER_EMAIL_SENT_FORM_ID } from "../constant/costant.js";
+
+export const formIdByStateMap = new Map([
+    //[MACHINE_STATE, FORM_ID]
+    [CUSTOMER_VIEW, CUSTOMER_VIEW_FORM_ID],
+    [ORDER_VIEW, ORDER_VIEW_FORM_ID],
+]);
+
+export const htmlFormByFormIdMap = new Map([
+    //[FORM_ID, html]
+    [CUSTOMER_VIEW_FORM_ID, getCustomerViewFormHtml],
+    [ORDER_VIEW_FORM_ID, getOrderViewFormHtml],
+]);
