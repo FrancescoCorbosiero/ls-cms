@@ -7,7 +7,7 @@ import { createPalleCard } from "../components/types/card-component.js";
 import { appendHtmlInDiv, deleteElement, disableButtonComponent, enableButtonComponent, hideElement, scroolOnElement, showElement } from "../utility/component-util.js";
 import { removeArrayElement, removeArrayElementByIndex } from "../utility/array-util.js";
 import { getLoaderDvg as getLoaderSvg, initCmsFormUI, playShakeErrorAnimation, playShakeTextfieldErrorAnimation, setButtonToLoadState, setButtonToReadyState, showError } from "./ui-handler.js";
-import { approvePendingCustomersRestCall, declinePendingCustomersRestCall, doLoginRestCall, getPendingCustomersRestCall, getRegistredCustomersRestCall, tracerOrderRestCall } from "../rest/rest-caller.js";
+import { approvePendingCustomersRestCall, declinePendingCustomersRestCall, doLoginRestCall, getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, tracerOrderRestCall } from "../rest/rest-caller.js";
 import { getDataTable, getPendingCustomersDataTable, getRegistedCustomersDataTable } from "../components/types/data-tables-component.js";
 import { language } from "../constant/language-messages.js";
 import * as stringUtil from "../utility/string-util.js";

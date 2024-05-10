@@ -13,6 +13,9 @@ export const HOST = `http://uat-sanchez-logistica.eu-north-1.elasticbeanstalk.co
 
     //ORDER
     export const PENDING_ORDERS_URL = HOST + `/mono/api/order/pending`;
+    export const REGISTRED_ORDERS_URL = HOST + `/mono/api/order/registered`;
+
+    // TRACKING
     export const TRACE_ORDERS_URL = HOST + `/mono/cms/order/trace`;
 
     //ENUM

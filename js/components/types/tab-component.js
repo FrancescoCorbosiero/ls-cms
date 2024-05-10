@@ -1,4 +1,4 @@
-import { BUTTON_TAB_BAR, PENDING_CUSTOMERS_TAB_BUTTON_ID, PENDING_CUSTOMERS_TAB_CONTENT_VIEW_ID, PENDING_ORDERS_TAB_BUTTON_ID, PENDING_ORDERS_TAB_CONTENT_VIEW_ID, REGISTRED_CUSTOMERS_TAB_BUTTON_ID, REGISTRED_CUSTOMERS_TAB_CONTENT_VIEW_ID, SEARCH_ORDER_TAB_BUTTON_ID, TAB_BAR_COMPONENT_TYPE, TRACE_ORDER_TAB_CONTENT_VIEW_ID } from "../../constant/costant.js";
+import { BUTTON_TAB_BAR, PENDING_CUSTOMERS_TAB_BUTTON_ID, PENDING_CUSTOMERS_TAB_CONTENT_VIEW_ID, REGISTRED_ORDERS_TAB_BUTTON_ID, PENDING_ORDERS_TAB_BUTTON_ID, REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID, PENDING_ORDERS_TAB_CONTENT_VIEW_ID, REGISTRED_CUSTOMERS_TAB_BUTTON_ID, REGISTRED_CUSTOMERS_TAB_CONTENT_VIEW_ID, SEARCH_ORDER_TAB_BUTTON_ID, TAB_BAR_COMPONENT_TYPE, TRACE_ORDER_TAB_CONTENT_VIEW_ID } from "../../constant/costant.js";
 import { language } from "../../constant/language-messages.js";
 import { setCurretTabView, switchTab } from "../../function/component-handler.js";
 import { addMdComponentToInit } from "../data/component-data.js";
@@ -56,6 +56,15 @@ export function createOrderTabBar(id){
                                 type: BUTTON_TAB_BAR, 
                                 activeTab: true,
                                 functionToCall: () => switchTab(PENDING_ORDERS_TAB_CONTENT_VIEW_ID)
+                            }
+                        )}
+                        ${createFunctionButton(
+                            {
+                                id: REGISTRED_ORDERS_TAB_BUTTON_ID,
+                                text: language.registredOrders,
+                                type: BUTTON_TAB_BAR,
+                                activeTab: false,
+                                functionToCall: () => switchTab(REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID)
                             }
                         )}
                         ${createFunctionButton(

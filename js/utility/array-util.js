@@ -21,5 +21,5 @@ export function isArrayOk(arrayToCheck){
 }
 
 export function isArrayNullOrEmpty(arrayToCheck){
-    return !isArrayOk(arrayToCheck);
+    return !isArrayOk(arrayToCheck) && (arrayToCheck != {});
 }

@@ -1,5 +1,5 @@
 import { userData } from "../components/data/user-data.js";
-import { APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
+import { APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_ORDERS_URL, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
 import { getLoginRequest } from "./dto/login-request.js";
 import { getTracerOrderRequest } from "./dto/order-request.js";
 
@@ -62,7 +62,17 @@ export async function getPendingOrdersRestCall(){
     userData.pendingOrders = responseJson;
 }
 
+export async function getRegistredOrdersRestCall(){
+    let request = {};
 
+    let response = await doPostAuthRestCall(REGISTRED_ORDERS_URL, request);
+
+    let responseJson = await response.json();
+
+    userData.registredOrders = responseJson;
+}
+
+// TRACKING
 export async function tracerOrderRestCall(code, trackingState){
     let request = getTracerOrderRequest(code, trackingState);
 

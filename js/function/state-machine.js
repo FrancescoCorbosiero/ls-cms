@@ -1,6 +1,6 @@
 import { initMdComponents } from "../components/data/component-data.js";
 import { CONFIRM_REGISTRATION_STEP, REGISTRATION_EMAIL_SENT_STEP, NEW_STATUS, ORDER_STEP, PENDING_STEP, PENDING_STATUS, REGISTERED_STATUS, ORDER_VIEW, CUSTOMER_VIEW as CUSTOMER_VIEW, PALLET_DATA_DIALOG_ID, RECIPIENT_STEP, CONFIRM_ORDER_STEP, ORDER_EMAIL_SENT_STEP } from "../constant/costant.js";
-import { getPendingOrdersRestCall, getTrackingStatesRestCall } from "../rest/rest-caller.js";
+import { getPendingOrdersRestCall, getRegistredOrdersRestCall, getTrackingStatesRestCall } from "../rest/rest-caller.js";
 import { saveEmail, saveOrderData, saveRecipientData, saveRegistrationData } from "./data-handler.js";
 import { isEmailFormValid, isOrderFormValid, isRecipientFormValid, isRegistrationFormValid as isRegistrationFormValid } from "./form-validator.js";
 import { setNavigationButtonsToLoadState, showError, updateNavigationButtonsUI, updateRegistrationFormUI } from "./ui-handler.js";
@@ -14,6 +14,7 @@ export async function swapToOrderSection(){
 
     if(orderSectionNotLoader){
         await getPendingOrdersRestCall();
+        await getRegistredOrdersRestCall();
         await getTrackingStatesRestCall();
 
         orderSectionNotLoader = false;

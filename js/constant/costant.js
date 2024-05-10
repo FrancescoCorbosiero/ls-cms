@@ -70,6 +70,7 @@
     //TAB BAR
     export const CUSTOMERS_TAB_BAR_ID = "customers-tab-bar-id";
     export const ORDERS_TAB_BAR_ID = "orders-tab-bar-id";
+    export const TRACKING_TAB_BAR_ID = "tracking-tab-bar-id";
 
     //DATA TABLE
         //Customer
@@ -77,6 +78,8 @@
         export const REGISTRED_CUSTOMERS_DATA_TABLE_ID = "registred-customers-data-table-id";
         //Order
         export const PENDING_ORDERS_DATA_TABLE_ID = "pending-orders-data-table-id";
+        export const REGISTRED_ORDERS_DATA_TABLE_ID = "registred-orders-data-table-id";
+        //Tracking
         export const TRACE_ORDER_DATA_TABLE_ID = "trace-order-data-table-id";
 
     //TAB CONTENT VIEW
@@ -84,6 +87,8 @@
     export const REGISTRED_CUSTOMERS_TAB_CONTENT_VIEW_ID = "registred-customers-tab-content-view-id";
 
     export const PENDING_ORDERS_TAB_CONTENT_VIEW_ID = "pending-orders-tab-content-view-id";
+    export const REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID = "registred-orders-tab-content-view-id";
+
     export const TRACE_ORDER_TAB_CONTENT_VIEW_ID = "trace-order-tab-content-view-id";
 
     //LOGO
@@ -105,6 +110,7 @@
         export const REGISTRED_CUSTOMERS_TAB_BUTTON_ID = "registred-customers-tab-button-id";
 
         export const PENDING_ORDERS_TAB_BUTTON_ID = "pending-orders-tab-button-id";
+        export const REGISTRED_ORDERS_TAB_BUTTON_ID = "registred-orders-tab-button-id";
         export const SEARCH_ORDER_TAB_BUTTON_ID = "search-order-tab-button-id";
 
         //NAV BUTTONS
@@ -201,6 +207,7 @@
         //Cms
         export const CUSTOMER_VIEW_FORM_ID = "customer-view-form-id";
         export const ORDER_VIEW_FORM_ID = "order-view-form-id";
+        export const TRACKING_VIEW_FORM_ID = "tracking-view-form-id";
 
 
         //Pending

@@ -15,6 +15,7 @@ export const userData = {
 
     //ORDERS
     pendingOrders: [],
+    registredOrders: [],
     tracedOrders: [],
 
     //ENUM

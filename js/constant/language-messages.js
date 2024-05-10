@@ -50,6 +50,7 @@ const jsonMessagesItalian = {
 
         //Order
         pendingOrdersEmpty: "Nessun ordine da approvare",
+        registredOrdersEmpty: "Nessun ordine registrato",
         tracedOrdersEmpty: "Nessun ordine da approvare",
 
     //PALLET TYPE
@@ -69,6 +70,8 @@ const jsonMessagesItalian = {
             registredCustomers: "Registrati",
             //Orders
             pendingOrders: "In Approvazione",
+            registredOrders: "Registrati",
+            //Tracking
             searchOrder: "Gestione Tracking",
 
         trackingStateOpenDropdownText: "Seleziona stato",

@@ -1,4 +1,4 @@
-import { APPROVE_PENDING_CUSTOMER_BUTTON_ID, APPROVE_PENDING_ORDER_BUTTON_ID, BUTTON_STANDARD, DECLINE_PENDING_CUSTOMER_BUTTON_ID, DECLINE_PENDING_ORDER_BUTTON_ID, LOGIN_DIALOG_BUTTON_ID } from "../../constant/costant.js";
+import { REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID, REGISTRED_ORDERS_DATA_TABLE_ID, APPROVE_PENDING_CUSTOMER_BUTTON_ID, APPROVE_PENDING_ORDER_BUTTON_ID, BUTTON_STANDARD, DECLINE_PENDING_CUSTOMER_BUTTON_ID, DECLINE_PENDING_ORDER_BUTTON_ID, LOGIN_DIALOG_BUTTON_ID } from "../../constant/costant.js";
 import { language } from "../../constant/language-messages.js";
 import { approvePendingCustomer, declinePendingCustomer } from "../../function/component-handler.js";
 import { isArrayNullOrEmpty, isArrayOk } from "../../utility/array-util.js";
@@ -138,6 +138,24 @@ export function getPendingCustomersDataTable(){
                 </table>
                 </div>
             </div>`;
+}
+
+export function getRegistedOrdersDataTable(){
+    let dataObject = userData.registredOrders.map(order => ({
+                                                    'ID': order.id,
+                                                    'Cliente mittente': order.email,
+                                                    'Codice Doc. Trasporto': order.codiceDocumentoTrasporto != null ? order.codiceDocumentoTrasporto : '-',
+                                                    'Destinatario': order.ragioneSociale,
+                                                    'Indirizzo':  order.indirizzo,
+                                                    'Città': order.citta + '(' + order.provincia + ')',
+                                                    'Cap': order.cap,
+                                                    'Telefono': order.telefono,
+                                                    'Importo': order.importo != null ? order.importo : '-',
+                                                    'Ser. Accessorio': order.servizioAccessorio,
+                                                    'Stato': order.stato,
+                                                    'Tracking': order.tracking
+                                                }));
+    return getDataTable(dataObject, language.registredOrdersEmpty);
 }
 
 export function getPendingOrdersDataTable(){
