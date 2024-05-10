@@ -61,7 +61,7 @@ const jsonMessagesItalian = {
         approve: "Approva",
         decline: "Rimuovi",
 
-        search: "Ricerca",
+        search: "Imposta nuovo stato",
 
         //Tab bar
             //Customer
@@ -69,7 +69,7 @@ const jsonMessagesItalian = {
             registredCustomers: "Registrati",
             //Orders
             pendingOrders: "In Approvazione",
-            searchOrder: "Ricerca",
+            searchOrder: "Gestione Tracking",
 
         trackingStateOpenDropdownText: "Seleziona stato",
 

@@ -51,7 +51,7 @@ export function getDataTable(jsonData, emptyTableText){
 }
 
 export function getRegistedCustomersDataTable(){
-    let dataObject = userData.pendingCustomers.map(customer => ({
+    let dataObject = userData.registredCustomers.map(customer => ({
                                                            'ID': customer.id,
                                                            'Ragione sociale': customer.ragioneSociale,
                                                            'Email': customer.email,
