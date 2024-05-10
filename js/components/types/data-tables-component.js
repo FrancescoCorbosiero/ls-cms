@@ -51,11 +51,32 @@ export function getDataTable(jsonData, emptyTableText){
 }
 
 export function getRegistedCustomersDataTable(){
-    return getDataTable(userData.registredCustomers, language.registredCustomersEmpty);
+    let dataObject = userData.pendingCustomers.map(customer => ({
+                                                           'ID': customer.id,
+                                                           'Ragione sociale': customer.ragioneSociale,
+                                                           'Email': customer.email,
+                                                           'Indirizzo':  customer.indirizzo,
+                                                           'Provincia': customer.provincia,
+                                                           'Città': customer.citta,
+                                                           'Cap': customer.cap,
+                                                           'Telefono': customer.telefono,
+                                                           'Email confermata': customer.emailConfirmed ? 'SI' : 'NO'
+                                                       }));
+    return getDataTable(dataObject, language.registredCustomersEmpty);
 }
 
 export function getPendingCustomersDataTable(){
-    let dataObject = userData.pendingCustomers;
+    let dataObject = userData.pendingCustomers.map(customer => ({
+                                                       'ID': customer.id,
+                                                       'Ragione sociale': customer.ragioneSociale,
+                                                       'Email': customer.email,
+                                                       'Indirizzo':  customer.indirizzo,
+                                                       'Provincia': customer.provincia,
+                                                       'Città': customer.citta,
+                                                       'Cap': customer.cap,
+                                                       'Telefono': customer.telefono,
+                                                       'Email confermata': customer.emailConfirmed ? 'SI' : 'NO'
+                                                   }));
 
     let isObjectEmpty = isArrayNullOrEmpty(dataObject);
 
@@ -120,7 +141,20 @@ export function getPendingCustomersDataTable(){
 }
 
 export function getPendingOrdersDataTable(){
-    let dataObject = userData.pendingOrders;
+    let dataObject = userData.pendingOrders.map(order => ({
+                                                    'ID': order.id,
+                                                    'Cliente mittente': order.email,
+                                                    'Codice Doc. Trasporto': order.codiceDocumentoTrasporto != null ? order.codiceDocumentoTrasporto : '-',
+                                                    'Destinatario': order.ragioneSociale,
+                                                    'Indirizzo':  order.indirizzo,
+                                                    'Città': order.citta + '(' + order.provincia + ')',
+                                                    'Cap': order.cap,
+                                                    'Telefono': order.telefono,
+                                                    'Importo': order.importo != null ? order.importo : '-',
+                                                    'Ser. Accessorio': order.servizioAccessorio,
+                                                    'Stato': order.stato,
+                                                    'Tracking': order.tracking
+                                                }));
 
     let isObjectEmpty = isArrayNullOrEmpty(dataObject);
 
