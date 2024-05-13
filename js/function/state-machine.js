@@ -1,9 +1,10 @@
-import { initMdComponents } from "../components/data/component-data.js";
+import { initMdComponents, addMdComponentToInit } from "../components/data/component-data.js";
 import { CONFIRM_REGISTRATION_STEP, REGISTRATION_EMAIL_SENT_STEP, NEW_STATUS, ORDER_STEP, PENDING_STEP, PENDING_STATUS, REGISTERED_STATUS, ORDER_VIEW, CUSTOMER_VIEW as CUSTOMER_VIEW, PALLET_DATA_DIALOG_ID, RECIPIENT_STEP, CONFIRM_ORDER_STEP, ORDER_EMAIL_SENT_STEP } from "../constant/costant.js";
-import { getPendingOrdersRestCall, getRegistredOrdersRestCall, getTrackingStatesRestCall } from "../rest/rest-caller.js";
+import { getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, getTrackingStatesRestCall } from "../rest/rest-caller.js";
 import { saveEmail, saveOrderData, saveRecipientData, saveRegistrationData } from "./data-handler.js";
 import { isEmailFormValid, isOrderFormValid, isRecipientFormValid, isRegistrationFormValid as isRegistrationFormValid } from "./form-validator.js";
-import { setNavigationButtonsToLoadState, showError, updateNavigationButtonsUI, updateRegistrationFormUI } from "./ui-handler.js";
+import { initCmsUI, setNavigationButtonsToLoadState, showError, updateNavigationButtonsUI, updateRegistrationFormUI, refreshFormUI} from "./ui-handler.js";
+import { userData } from "../components/data/user-data.js";
 
 export let currentView = CUSTOMER_VIEW;
 
@@ -27,6 +28,24 @@ export function swapToCustomerSection(){
     setNavigationButtonsToLoadState();
 
     updateState(CUSTOMER_VIEW);
+}
+
+export async function refreshSection(){
+    setNavigationButtonsToLoadState();
+
+    if(currentView == ORDER_VIEW){
+        await getPendingOrdersRestCall();
+        await getRegistredOrdersRestCall();
+        await refreshFormUI(ORDER_VIEW)
+        updateNavigationButtonsUI();
+        initMdComponents();
+    } else {
+        await getPendingCustomersRestCall();
+        await getRegistredCustomersRestCall();
+        await refreshFormUI(CUSTOMER_VIEW)
+        updateNavigationButtonsUI();
+        initMdComponents();
+    }
 }
 
 async function updateState(nextState){

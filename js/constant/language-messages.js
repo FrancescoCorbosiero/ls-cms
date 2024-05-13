@@ -72,7 +72,7 @@ const jsonMessagesItalian = {
             pendingOrders: "In Approvazione",
             registredOrders: "Registrati",
             //Tracking
-            searchOrder: "Gestione Tracking",
+            searchOrder: "Tracking",
 
         trackingStateOpenDropdownText: "Seleziona stato",
 

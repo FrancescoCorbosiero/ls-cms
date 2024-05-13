@@ -116,10 +116,12 @@
         //NAV BUTTONS
         export const ORDER_BUTTON_ID = "order-button-id";
         export const CUSTOMER_BUTTON_ID = "customer-button-id";
+        export const REFRESH_BUTTON_ID = "refresh-button-id";
 
         //NAV ICONS
         export const ORDER_BUTTON_ICON_ID = "order-button-icon-id";
         export const CUSTOMER_BUTTON_ICON_ID = "customer-button-icon-id";
+        export const REFRESH_BUTTON_ICON_ID = "refresh-button-icon-id";
 
         //DIALOG BUTTONS
         export const PALLET_OPEN_DIALOG_BUTTON_ID = "pallet-open-dialog-button-id";

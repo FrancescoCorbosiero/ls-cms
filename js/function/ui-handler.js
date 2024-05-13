@@ -1,11 +1,11 @@
 import { createErrorDialog, createLoginDialog } from "../components/types/dialog-components.js";
 import { getCustomerViewFormHtml } from "../components/types/form-components.js";
 import { createSnackBar } from "../components/types/snackbar-component.js";
-import { BOOTSTRAP_DISPLAY_NONE_CLASS, FADE_IN_ANIMATION_CLASS, FADE_OUT_ANIMATION_CLASS, ORDER_BUTTON_ID, CUSTOMER_BUTTON_ID, FORM_DIV_ID, CUSTOMER_VIEW, REGISTRATION_EMAIL_SENT_STEP, ORDER_EMAIL_SENT_STEP, PENDING_STEP, LOGO_ID, CUSTOMER_BUTTON_ICON_ID, ERROR_DIALOG_ID, ORDER_BUTTON_ICON_ID, LOGIN_DIALOG_ID, WHITE } from "../constant/costant.js";
+import { BOOTSTRAP_DISPLAY_NONE_CLASS, FADE_IN_ANIMATION_CLASS, FADE_OUT_ANIMATION_CLASS, ORDER_BUTTON_ID, CUSTOMER_BUTTON_ID, REFRESH_BUTTON_ID, FORM_DIV_ID, CUSTOMER_VIEW, REGISTRATION_EMAIL_SENT_STEP, ORDER_EMAIL_SENT_STEP, PENDING_STEP, LOGO_ID, CUSTOMER_BUTTON_ICON_ID, ERROR_DIALOG_ID, REFRESH_BUTTON_ICON_ID, ORDER_BUTTON_ICON_ID, LOGIN_DIALOG_ID, WHITE } from "../constant/costant.js";
 import { language } from "../constant/language-messages.js";
-import { ORDER_SVG, CUSTOMER_SVG, LOGO_SVG, LOGO_SVG_WHITE } from "../constant/svg.js";
+import { ORDER_SVG, CUSTOMER_SVG, REFRESH_SVG, LOGO_SVG, LOGO_SVG_WHITE } from "../constant/svg.js";
 import { formIdByStateMap, htmlFormByFormIdMap } from "../mapper/state-form-mapper.js";
-import { appendHtmlInDiv, disableButtonComponent, enableButtonComponent } from "../utility/component-util.js";
+import { appendHtmlInDiv, deleteElement, disableButtonComponent, enableButtonComponent } from "../utility/component-util.js";
 import { openErrorDialog } from "./component-handler.js";
 import { currentView } from "./state-machine.js";
 
@@ -13,12 +13,12 @@ const loadStateMap = new Map();
 
 const customerButton = document.getElementById(CUSTOMER_BUTTON_ID);
 const orderButton = document.getElementById(ORDER_BUTTON_ID);
+const refreshButton = document.getElementById(REFRESH_BUTTON_ID);
 
 export function updateNavigationButtonsUI(){
-    
     enableButtonComponent(customerButton);
-    enableButtonComponent(orderButton);    
-
+    enableButtonComponent(orderButton);
+    enableButtonComponent(refreshButton)
 }
 
 export function showError() {
@@ -29,6 +29,7 @@ export function showError() {
 export function setNavigationButtonsToLoadState(){
     disableButtonComponent(customerButton);
     disableButtonComponent(orderButton);
+    disableButtonComponent(refreshButton);
 }
 
 export function setButtonToLoadState(buttonElement){
@@ -68,6 +69,9 @@ export function initCmsUI(){
     let prevStepIconButton = document.getElementById(ORDER_BUTTON_ICON_ID);
     prevStepIconButton.innerHTML = ORDER_SVG;
 
+    let refreshIconButton = document.getElementById(REFRESH_BUTTON_ICON_ID)
+    refreshIconButton.innerHTML = REFRESH_SVG;
+
     createSnackBar();
     createErrorDialog(ERROR_DIALOG_ID);
     createLoginDialog(LOGIN_DIALOG_ID);
@@ -75,10 +79,24 @@ export function initCmsUI(){
 
 export function initCmsFormUI(){
     //Init form
-    let registrationForm = document.getElementById(FORM_DIV_ID);
+    let form = document.getElementById(FORM_DIV_ID);
     let startRegistrationFormHtml = getCustomerViewFormHtml();
 
-    registrationForm.innerHTML = startRegistrationFormHtml;
+    form.innerHTML = startRegistrationFormHtml;
+}
+
+export function updateCmsFormUI(currentView){
+    //Init form
+    let form = document.getElementById(FORM_DIV_ID);
+    let formHtml = getCustomerViewFormHtml();
+
+    if(currentView == ORDER_VIEW_ID){
+        formHtml = getOrderViewFormHtml();
+    } else {
+        formHtml = getCustomerViewFormHtml();
+    }
+
+    form.innerHTML = startRegistrationFormHtml;
 }
 
 export function updateRegistrationFormUI(nextStep){
@@ -112,6 +130,37 @@ export function updateRegistrationFormUI(nextStep){
     });
 }
 
+export function refreshFormUI(nextStep){
+    return new Promise((resolve) => {
+        //get the current form
+        let registrationForm = document.getElementById(FORM_DIV_ID);
+
+        //add fade out animation to it
+        registrationForm.classList.remove(FADE_IN_ANIMATION_CLASS);
+        registrationForm.classList.add(FADE_OUT_ANIMATION_CLASS);
+
+        let fadeOutAnimation = document.querySelector('.' + FADE_OUT_ANIMATION_CLASS);
+
+        //when the animation end
+        fadeOutAnimation.addEventListener('animationend', () => {
+            //remove the animation class
+            registrationForm.classList.remove(FADE_OUT_ANIMATION_CLASS);
+
+            updateForm(nextStep);
+
+            //fade in
+            registrationForm.classList.add(FADE_IN_ANIMATION_CLASS);
+
+            let fadeInAnimation = document.querySelector('.' + FADE_IN_ANIMATION_CLASS);
+
+            fadeInAnimation.addEventListener('animationend', () => {
+                resolve();
+            }, { once: true });
+
+        }, { once: true });
+    });
+}
+
 function swapForm(nextStep){
     let formToHideId = formIdByStateMap.get(currentView);
     let formToDisplayId = formIdByStateMap.get(nextStep);
@@ -130,6 +179,20 @@ function swapForm(nextStep){
     }
 
     formToHide.hidden = true;
+    formToDisplay.hidden = false;
+}
+
+function updateForm(currentView){
+    let formToDisplayId = formIdByStateMap.get(currentView);
+    let formToDisplay = document.getElementById(formToDisplayId);
+
+    let formHtmlFunction = htmlFormByFormIdMap.get(formToDisplayId);
+    let htmlToAppend = formHtmlFunction();
+
+    deleteElement(formToDisplayId);
+    appendHtmlInDiv(FORM_DIV_ID, htmlToAppend);
+    formToDisplay = document.getElementById(formToDisplayId);
+
     formToDisplay.hidden = false;
 }
 
