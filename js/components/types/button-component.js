@@ -1,4 +1,4 @@
-import { BUTTON_ROUNDED, BUTTON_STANDARD, BUTTON_TAB_BAR, CLICK } from "../../constant/costant.js";
+import { SVG_ICON, BUTTON_ROUNDED, BUTTON_STANDARD, BUTTON_TAB_BAR, CLICK } from "../../constant/costant.js";
 import { addButtonListenerToInit } from "../data/component-data.js";
 
 export function createStandardButton(buttonSettings){
@@ -46,6 +46,14 @@ export function createIconButton(id, icon){
     `;
 }
 
+export function createSvgIconButton(buttonSettings){
+    return `
+        <button id="${buttonSettings.id}" class="mdc-button mdc-button--raised">
+            <span class="mdc-button__label">${buttonSettings.svg}</span>
+        </button>
+    `;
+}
+
 export function createFunctionButton(buttonSettings){
     
     addButtonListenerToInit(buttonSettings.id, CLICK, buttonSettings.functionToCall);
@@ -53,6 +61,8 @@ export function createFunctionButton(buttonSettings){
     buttonSettings.weight = buttonSettings.weight ? buttonSettings.weight : "";
     
     switch(buttonSettings.type){
+        case SVG_ICON:
+            return createSvgIconButton(buttonSettings);
         case BUTTON_STANDARD:
             return createStandardButton(buttonSettings);
         case BUTTON_ROUNDED:

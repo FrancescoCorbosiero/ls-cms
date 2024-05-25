@@ -1,7 +1,8 @@
 import { userData } from "../components/data/user-data.js";
-import { APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_ORDERS_URL, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
+import { REPORT_URL, NOTES_URL, UPDATE_NOTES_URL, APPROVE_PEDING_ORDERS_URL, DECLINE_PEDING_ORDERS_URL, APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_ORDERS_URL, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, ACCESSORY_SERVICE_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
 import { getLoginRequest } from "./dto/login-request.js";
 import { getTracerOrderRequest } from "./dto/order-request.js";
+import { initServiceDropDownData } from "../components/data/component-data.js";
 
 export async function doLoginRestCall(){
     let request = getLoginRequest();
@@ -35,20 +36,20 @@ export async function getRegistredCustomersRestCall(){
     userData.registredCustomers = responseJson;
 }
 
-export async function approvePendingCustomersRestCall(email){
-    let request = {
-        "email": email
-    };
-
-    await doPostAuthRestCall(APPROVE_PEDING_CUSTOMERS_URL, request);
+export async function approvePendingCustomersRestCall(req){
+    await doPostAuthRestCall(APPROVE_PEDING_CUSTOMERS_URL, req);
 }
 
-export async function declinePendingCustomersRestCall(email){
-    let request = {
-        "email": email
-    };
+export async function declinePendingCustomersRestCall(req){
+    await doPostAuthRestCall(DECLINE_PEDING_CUSTOMERS_URL, req);
+}
 
-    await doPostAuthRestCall(DECLINE_PEDING_CUSTOMERS_URL, request);
+export async function approvePendingOrdersRestCall(req){
+    await doPostAuthRestCall(APPROVE_PEDING_ORDERS_URL, req);
+}
+
+export async function declinePendingOrdersRestCall(req){
+    await doPostAuthRestCall(DECLINE_PEDING_ORDERS_URL, req);
 }
 
 //ORDERS
@@ -83,12 +84,42 @@ export async function tracerOrderRestCall(code, trackingState){
     userData.tracedOrders.push(responseJson);
 }
 
+// NOTES
+export async function getNotesRestCall(req){
+    let response = await doPostAuthRestCall(NOTES_URL, req);
+    let responseJson = await response.json();
+    return responseJson.notes;
+}
+
+export async function updateNotesRestCall(req){
+    await doPostAuthRestCall(UPDATE_NOTES_URL, req);
+}
+
+// REPORT
+export async function reportRestCall(email, dateFrom, dateTo){
+    let req = {
+        email: email,
+        from: dateFrom,
+        to: dateTo
+    };
+    await doPostAuthRestCall(REPORT_URL, req);
+}
+
+// DROPDOWN
 export async function getTrackingStatesRestCall(){
     let response = await doGetNoAuthRestCall(TRACKING_STATES_URL);
 
     let responseJson = await response.json();
 
     userData.trackingStateEnum = responseJson;
+}
+
+export async function getAccessoryServiceRestCall(){
+    let response = await doGetNoAuthRestCall(ACCESSORY_SERVICE_URL);
+
+    let responseJson = await response.json();
+
+    userData.accessoryServiceEnum = responseJson;
 }
 
 async function doPostNoAuthRestCall(url, request){

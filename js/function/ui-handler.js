@@ -1,9 +1,9 @@
-import { createErrorDialog, createLoginDialog } from "../components/types/dialog-components.js";
+import { createErrorDialog, createLoginDialog, createApproveOrderDialog, createApproveCustomerDialog, createDeclineOrderDialog, createNotesDialog, createDeliveryDialog, createDeclineCustomerDialog } from "../components/types/dialog-components.js";
 import { getCustomerViewFormHtml } from "../components/types/form-components.js";
 import { createSnackBar } from "../components/types/snackbar-component.js";
-import { BOOTSTRAP_DISPLAY_NONE_CLASS, FADE_IN_ANIMATION_CLASS, FADE_OUT_ANIMATION_CLASS, ORDER_BUTTON_ID, CUSTOMER_BUTTON_ID, REFRESH_BUTTON_ID, FORM_DIV_ID, CUSTOMER_VIEW, REGISTRATION_EMAIL_SENT_STEP, ORDER_EMAIL_SENT_STEP, PENDING_STEP, LOGO_ID, CUSTOMER_BUTTON_ICON_ID, ERROR_DIALOG_ID, REFRESH_BUTTON_ICON_ID, ORDER_BUTTON_ICON_ID, LOGIN_DIALOG_ID, WHITE } from "../constant/costant.js";
+import { DECLINE_CUSTOMER_DIALOG_BUTTON_ID, DECLINE_ORDER_DIALOG_BUTTON_ID, APPROVE_CUSTOMER_DIALOG_BUTTON_ID, APPROVE_ORDER_DIALOG_BUTTON_ID, CODICE_TEXTFIELD_ID, IMPORTO_CONTRASSEGNO_TEXTFIELD_ID, IMPORTO_ASSICURATO_TEXTFIELD_ID, CODICE_DOCUMENTO_TRASPORTO_TEXTFIELD_ID, BOOTSTRAP_DISPLAY_NONE_CLASS, FADE_IN_ANIMATION_CLASS, FADE_OUT_ANIMATION_CLASS, ORDER_BUTTON_ID, CUSTOMER_BUTTON_ID, REFRESH_BUTTON_ID, FORM_DIV_ID, CUSTOMER_VIEW, REGISTRATION_EMAIL_SENT_STEP, ORDER_EMAIL_SENT_STEP, PENDING_STEP, LOGO_ID, CUSTOMER_BUTTON_ICON_ID, ERROR_DIALOG_ID, REFRESH_BUTTON_ICON_ID, ORDER_BUTTON_ICON_ID, LOGIN_DIALOG_ID, APPROVE_ORDER_DATA_DIALOG_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, DECLINE_CUSTOMER_DATA_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, NOTES_DATA_DIALOG_ID, DELIVERY_DATA_DIALOG_ID, WHITE } from "../constant/costant.js";
 import { language } from "../constant/language-messages.js";
-import { ORDER_SVG, CUSTOMER_SVG, REFRESH_SVG, LOGO_SVG, LOGO_SVG_WHITE } from "../constant/svg.js";
+import { ORDER_SVG, CUSTOMER_SVG, REFRESH_SVG, LOGO_SVG, LOGO_SVG_WHITE, NOTES_SVG } from "../constant/svg.js";
 import { formIdByStateMap, htmlFormByFormIdMap } from "../mapper/state-form-mapper.js";
 import { appendHtmlInDiv, deleteElement, disableButtonComponent, enableButtonComponent } from "../utility/component-util.js";
 import { openErrorDialog } from "./component-handler.js";
@@ -15,6 +15,7 @@ const customerButton = document.getElementById(CUSTOMER_BUTTON_ID);
 const orderButton = document.getElementById(ORDER_BUTTON_ID);
 const refreshButton = document.getElementById(REFRESH_BUTTON_ID);
 
+// NAVIGATION
 export function updateNavigationButtonsUI(){
     enableButtonComponent(customerButton);
     enableButtonComponent(orderButton);
@@ -51,7 +52,6 @@ export function getLoaderDvg(size, color){
         </div>`;
 }
 
-
 export function setButtonToReadyState(buttonElement){
     //Recover the prev content
     let prevContent = loadStateMap.get(buttonElement.id);
@@ -59,8 +59,8 @@ export function setButtonToReadyState(buttonElement){
     buttonElement.innerHTML = prevContent;
 }
 
-//REGISTRATION FORM
 
+//CMS FORM
 export function initCmsUI(){
     //Nav buttons
     let nextStepIconButton = document.getElementById(CUSTOMER_BUTTON_ICON_ID);
@@ -75,6 +75,12 @@ export function initCmsUI(){
     createSnackBar();
     createErrorDialog(ERROR_DIALOG_ID);
     createLoginDialog(LOGIN_DIALOG_ID);
+    createApproveCustomerDialog(APPROVE_CUSTOMER_DATA_DIALOG_ID);
+    createApproveOrderDialog(APPROVE_ORDER_DATA_DIALOG_ID);
+    createDeclineCustomerDialog(DECLINE_CUSTOMER_DATA_DIALOG_ID);
+    createDeclineOrderDialog(DECLINE_ORDER_DATA_DIALOG_ID);
+    createNotesDialog(NOTES_DATA_DIALOG_ID);
+    createDeliveryDialog(DELIVERY_DATA_DIALOG_ID);
 }
 
 export function initCmsFormUI(){
@@ -196,9 +202,8 @@ function updateForm(currentView){
     formToDisplay.hidden = false;
 }
 
+
 //TEXT FIELD
-
-
 export function playShakeTextfieldErrorAnimation(mdcTextField, id){
     let textField = document.getElementById(id);
 

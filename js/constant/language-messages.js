@@ -24,24 +24,32 @@ const jsonMessagesItalian = {
 
         //Order
         orderCode: "Codice Ordine",
+        emailCliente: "Email Cliente",
 
     //DIALOG
         dialogConfirm: "Conferma",
+        dialogSet: "Imposta",
         dialogCancel: "Annulla",
         dialogClose: "Chiudi",
+        dialogModify: "Modifica",
 
         //ERROR
         errorDialogTitle: "Errore",
 
         //LOGIN
         loginDialogTitle: "Login",
-        
+        confirmationDialogTitle: "Sei sicuro di voler procedere?",
+        approveOrderDialogTitle: "Approva ordine",
+        traceOrderDialogTitle: "Imposta tracking",
+        updateNotesDialogTitle: "Aggiorna note",
+
         errorDialogText: 
         `Ops, si è verificato un errore riprova più tardi. 
         Se il problema persiste contattaci via email o telefonicamente`,
 
         //Pallet
-        palletDialogDataTitle: "Pallet",
+        confirmationDialogDataTitle: "Vuoi procedere?",
+        approveOrderDialogDataTitle: "Approva Ordine",
 
     //DATA TABLE
         //Customer
@@ -61,8 +69,9 @@ const jsonMessagesItalian = {
         //Data table
         approve: "Approva",
         decline: "Rimuovi",
+        sendReport: "Invia Report",
 
-        search: "Imposta nuovo stato",
+        search: "Imposta stato",
 
         //Tab bar
             //Customer
@@ -73,8 +82,10 @@ const jsonMessagesItalian = {
             registredOrders: "Registrati",
             //Tracking
             searchOrder: "Tracking",
+            //Report
+            report: "Report",
 
-        trackingStateOpenDropdownText: "Seleziona stato",
+        trackingStateOpenDropdownText: "Seleziona tracking",
 
         //Navigation
         nextButtonText: "Avanti",

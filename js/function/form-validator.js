@@ -1,4 +1,4 @@
-import { DELIVERY_DOCUMENT_TEXTFIELD_ID, EMAIL_TEXTFIELD_ID, LOGIN_DIALOG_ID, MDC_TEXT_FIELD_CLASS, MOBILE_PHONE_REGEX, ONLY_NUMBERS_REGEX, ORDER_FORM_ID, PACKAGE_QUANTITY_TEXTFIELD_ID, PALLET_DATA_DIALOG_ID, PALLET_OPEN_DIALOG_BUTTON_ID, PHONE_TEXTFIELD_ID, POSTALCODE_REGEX, POSTALCODE_TEXTFIELD_ID, RECIPIENT_FORM_ID, ORDER_VIEW_FORM_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SERVICE_TYPE_ATTRIBUTE_ID } from "../constant/costant.js";
+import { APPROVE_ORDER_DATA_DIALOG_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, DECLINE_CUSTOMER_DATA_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, DELIVERY_DOCUMENT_TEXTFIELD_ID, EMAIL_TEXTFIELD_ID, LOGIN_DIALOG_ID, MDC_TEXT_FIELD_CLASS, MOBILE_PHONE_REGEX, ONLY_NUMBERS_REGEX, ORDER_FORM_ID, PACKAGE_QUANTITY_TEXTFIELD_ID, PALLET_OPEN_DIALOG_BUTTON_ID, PHONE_TEXTFIELD_ID, POSTALCODE_REGEX, POSTALCODE_TEXTFIELD_ID, RECIPIENT_FORM_ID, ORDER_VIEW_FORM_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SERVICE_TYPE_ATTRIBUTE_ID } from "../constant/costant.js";
 import * as stringUtil from "../utility/string-util.js";
 import { getMdComponent } from "../components/data/component-data.js";
 import { playShakeErrorAnimation, playShakeTextfieldErrorAnimation } from "./ui-handler.js";
@@ -108,7 +108,7 @@ export function isOrderFormValid(){
 }
 
 export function isPalletDialogBoxFormValid(){
-    let formNotValid = isFormValidWithRegex(PALLET_DATA_DIALOG_ID, ONLY_NUMBERS_REGEX);
+    let formNotValid = isFormValidWithRegex(CONFIRMATION_DATA_DIALOG_ID, ONLY_NUMBERS_REGEX);
 
     if(formNotValid){
         return false;
@@ -119,6 +119,16 @@ export function isPalletDialogBoxFormValid(){
 
 export function isLoginDialogFormNotValid(){
     let formNotValid = isFormNullOrEmpty(LOGIN_DIALOG_ID);
+
+    if(formNotValid){
+        return true;
+    }
+
+    return false;
+}
+
+export function isApproveOrderDialogFormNotValid(){
+    let formNotValid = isFormNullOrEmpty(APPROVE_ORDER_DATA_DIALOG_ID);
 
     if(formNotValid){
         return true;

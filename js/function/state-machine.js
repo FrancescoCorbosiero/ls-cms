@@ -1,6 +1,6 @@
 import { initMdComponents, addMdComponentToInit } from "../components/data/component-data.js";
-import { CONFIRM_REGISTRATION_STEP, REGISTRATION_EMAIL_SENT_STEP, NEW_STATUS, ORDER_STEP, PENDING_STEP, PENDING_STATUS, REGISTERED_STATUS, ORDER_VIEW, CUSTOMER_VIEW as CUSTOMER_VIEW, PALLET_DATA_DIALOG_ID, RECIPIENT_STEP, CONFIRM_ORDER_STEP, ORDER_EMAIL_SENT_STEP } from "../constant/costant.js";
-import { getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, getTrackingStatesRestCall } from "../rest/rest-caller.js";
+import { APPROVE_ORDER_DATA_DIALOG_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, DECLINE_CUSTOMER_DATA_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, CONFIRM_REGISTRATION_STEP, REGISTRATION_EMAIL_SENT_STEP, NEW_STATUS, ORDER_STEP, PENDING_STEP, PENDING_STATUS, REGISTERED_STATUS, ORDER_VIEW, CUSTOMER_VIEW as CUSTOMER_VIEW, RECIPIENT_STEP, CONFIRM_ORDER_STEP, ORDER_EMAIL_SENT_STEP } from "../constant/costant.js";
+import { getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, getTrackingStatesRestCall, getAccessoryServiceRestCall } from "../rest/rest-caller.js";
 import { saveEmail, saveOrderData, saveRecipientData, saveRegistrationData } from "./data-handler.js";
 import { isEmailFormValid, isOrderFormValid, isRecipientFormValid, isRegistrationFormValid as isRegistrationFormValid } from "./form-validator.js";
 import { initCmsUI, setNavigationButtonsToLoadState, showError, updateNavigationButtonsUI, updateRegistrationFormUI, refreshFormUI} from "./ui-handler.js";
@@ -17,6 +17,7 @@ export async function swapToOrderSection(){
         await getPendingOrdersRestCall();
         await getRegistredOrdersRestCall();
         await getTrackingStatesRestCall();
+        await getAccessoryServiceRestCall();
 
         orderSectionNotLoader = false;
     }

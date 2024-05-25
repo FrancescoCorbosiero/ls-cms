@@ -1,16 +1,17 @@
-import { BLACK, CLICK, ERROR_DIALOG_ID, LOGIN_DIALOG_ID, LOGIN_PASSWORD_TEXTFIELD_ID, LOGIN_USERNAME_TEXTFIELD_ID, ORDER_CODE_TEXTFIELD_ID, PALLET_CARD_ID, PALLET_DATA_DIALOG_ID, PALLET_DELETE_CARD_BUTTON_ID, PALLET_DIALOG_TITLE_ID, PALLET_LIST_DIV_ID, PALLET_OPEN_DIALOG_BUTTON_ID, PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID, PALLET_OVERALL_VOLUME_ID, PALLET_OVERALL_WEIGTH_ID, PALLET_TYPE_ATTRIBUTE_ID, PALLET_TYPE_DROPDOWN_ID, PENDING_CUSTOMERS_DATA_TABLE_ID, PENDING_ORDERS_DATA_TABLE_ID, REGISTRED_CUSTOMERS_DATA_TABLE_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SNACKBAR_ID, SNACKBAR_TEXT_ID, TRACE_ORDER_DATA_TABLE_ID, TRACKING_STATE_OPEN_DROPDOWN_TYPE_BUTTON_ID, TRACKING_STATE_ATTRIBUTE_ID } from "../constant/costant.js";
+import { DELIVERY_DATA_DIALOG_ID, NOTES_PRE_ID, REPORT_EMAIL_TEXTFIELD_ID, DATE_FROM_PICKER_ID, DATE_TO_PICKER_ID, NOTES_DATA_DIALOG_ID, NOTES_TEXTFIELD_ID, SERVICE_TYPE_ATTRIBUTE_ID, DECLINE_CUSTOMER_DIALOG_BUTTON_ID, DECLINE_ORDER_DIALOG_BUTTON_ID, APPROVE_CUSTOMER_DIALOG_BUTTON_ID, APPROVE_ORDER_DIALOG_BUTTON_ID, CODICE_TEXTFIELD_ID, IMPORTO_CONTRASSEGNO_TEXTFIELD_ID, IMPORTO_ASSICURATO_TEXTFIELD_ID, CODICE_DOCUMENTO_TRASPORTO_TEXTFIELD_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, APPROVE_ORDER_DATA_DIALOG_ID, BLACK, CLICK, ERROR_DIALOG_ID, LOGIN_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, LOGIN_PASSWORD_TEXTFIELD_ID, LOGIN_USERNAME_TEXTFIELD_ID, ORDER_CODE_TEXTFIELD_ID, PALLET_CARD_ID, PALLET_DELETE_CARD_BUTTON_ID, PALLET_DIALOG_TITLE_ID, PALLET_LIST_DIV_ID, PALLET_OPEN_DIALOG_BUTTON_ID, PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID, PALLET_OVERALL_VOLUME_ID, PALLET_OVERALL_WEIGTH_ID, PALLET_TYPE_ATTRIBUTE_ID, PALLET_TYPE_DROPDOWN_ID, PENDING_CUSTOMERS_DATA_TABLE_ID, PENDING_ORDERS_DATA_TABLE_ID, REGISTRED_CUSTOMERS_DATA_TABLE_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SNACKBAR_ID, SNACKBAR_TEXT_ID, TRACE_ORDER_DATA_TABLE_ID, TRACKING_STATE_OPEN_DROPDOWN_TYPE_BUTTON_ID, TRACKING_STATE_ATTRIBUTE_ID } from "../constant/costant.js";
 import { getPalletData, updateOverallData } from "./data-handler.js";
-import { isLoginDialogFormNotValid, isPalletDialogBoxFormValid } from "./form-validator.js";
+import { isApproveOrderDialogFormNotValid, isLoginDialogFormNotValid, isPalletDialogBoxFormValid } from "./form-validator.js";
 import { getMdComponent, initMdComponents } from "../components/data/component-data.js";
 import { userData } from "../components/data/user-data.js";
 import { createPalleCard } from "../components/types/card-component.js";
 import { appendHtmlInDiv, deleteElement, disableButtonComponent, enableButtonComponent, hideElement, scroolOnElement, showElement } from "../utility/component-util.js";
 import { removeArrayElement, removeArrayElementByIndex } from "../utility/array-util.js";
 import { getLoaderDvg as getLoaderSvg, initCmsFormUI, playShakeErrorAnimation, playShakeTextfieldErrorAnimation, setButtonToLoadState, setButtonToReadyState, showError } from "./ui-handler.js";
-import { approvePendingCustomersRestCall, declinePendingCustomersRestCall, doLoginRestCall, getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, tracerOrderRestCall } from "../rest/rest-caller.js";
+import { getTrackingStatesRestCall, reportRestCall, updateNotesRestCall, approvePendingOrdersRestCall, declinePendingOrdersRestCall , approvePendingCustomersRestCall, declinePendingCustomersRestCall, doLoginRestCall, getPendingCustomersRestCall, getRegistredCustomersRestCall, getPendingOrdersRestCall, getRegistredOrdersRestCall, tracerOrderRestCall, getNotesRestCall} from "../rest/rest-caller.js";
 import { getDataTable, getPendingCustomersDataTable, getRegistedCustomersDataTable } from "../components/types/data-tables-component.js";
 import { language } from "../constant/language-messages.js";
 import * as stringUtil from "../utility/string-util.js";
+import { refreshSection } from "./state-machine.js";
 
 let currentTabViewElementId;
 let isCmsBeenInitialize = false;
@@ -21,7 +22,41 @@ export function openErrorDialog(){
 
     dialog.escapeKeyAction = "";
     dialog.scrimClickAction = "";
-    
+
+    dialog.open();
+}
+
+export function openDialog(dialogId, payload){
+    userData.rowPayload = payload;
+
+    //Get MD dialog
+    let dialog = getMdComponent(dialogId);
+
+    dialog.open();
+}
+
+export function openNotesDialog(payload){
+
+    userData.rowPayload = payload;
+    userData.rowPayload['Note'] = getNotes();
+
+    //Get MD dialog
+    let dialog = getMdComponent(NOTES_DATA_DIALOG_ID);
+
+    dialog.open();
+
+}
+
+export function openDeliveryDialog(payload){
+    userData.rowPayload = payload;
+    let codiceTxt = userData.rowPayload['Codice'];
+
+    //Get MD dialog
+    getMdComponent(ORDER_CODE_TEXTFIELD_ID).value = codiceTxt;
+
+//    await getTrackingStatesRestCall();
+    let dialog = getMdComponent(DELIVERY_DATA_DIALOG_ID);
+
     dialog.open();
 }
 
@@ -116,50 +151,257 @@ export async function initCms(){
     }
 }
 
-export async function approvePendingCustomer(customer){
-    let pendingDataTable = document.getElementById(PENDING_CUSTOMERS_DATA_TABLE_ID);
-    let email = customer.email;
+export async function report(){
+    let mdcReportEmailTextField = getMdComponent(REPORT_EMAIL_TEXTFIELD_ID);
+    let email = mdcReportEmailTextField.value;
+    let isEmailValid = stringUtil.isEmailFormatValid(email);
 
+    let dateFromInput = document.getElementById(DATE_FROM_PICKER_ID);
+    let dateFrom = dateFromInput.value;
+    let isDateFromValid = true;
+
+    let dateToInput = document.getElementById(DATE_TO_PICKER_ID);
+    let dateTo = dateToInput.value;
+    let isDateToValid = true;
+
+    if(isEmailValid && isDateFromValid && isDateToValid){
+        try {
+            await reportRestCall(email, dateFrom, dateTo);
+            showSnackBarError("Report inviato correttamente");
+            await refreshSection();
+        } catch(error) {
+            console.error(error);
+            showSnackBarError("Dati non validi");
+        }
+    } else{
+        showSnackBarError("Dati non validi");
+    }
+}
+
+export async function getNotes(){
+    let order = userData.rowPayload;
+    let dialog = getMdComponent(NOTES_DATA_DIALOG_ID);
+    try {
+        let req = {
+            codice: order['Codice']
+        };
+
+        let notesTxt = await getNotesRestCall(req);
+
+        getMdComponent(NOTES_TEXTFIELD_ID).value = notesTxt != null ? notesTxt : "Nessuna nota presente";
+        document.getElementById(NOTES_PRE_ID).innerHTML = notesTxt != null ? notesTxt : "Nessuna nota presente";
+        return notesTxt;
+
+        dialog.close();
+    } catch(error) {
+        console.error(error);
+        dialog.close();
+        showSnackBarError("Ops, si è verificato un errore");
+    }
+}
+
+export async function updateNotes(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
+//    let formNotValid = isApproveOrderDialogFormNotValid();
+//
+//    if(formNotValid){
+//        enableButtonComponent(buttonCaller);
+//        setButtonToReadyState(buttonCaller);
+//        return;
+//    }
+
+    let notesTxt = getMdComponent(NOTES_TEXTFIELD_ID).value
+    let order = userData.rowPayload;
+
+    let dialog = getMdComponent(NOTES_DATA_DIALOG_ID);
+
+    //Get table data
+    try {
+        let req = {
+            codice: order['Codice'],
+            notes: notesTxt
+        };
+        await updateNotesRestCall(req);
+
+        await refreshSection();
+        dialog.close();
+    } catch(error) {
+        console.error(error);
+        dialog.close();
+        pendingDataTable.innerHTML = prevContent;
+        showSnackBarError("Ops, si è verificato un errore");
+    }
+
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
+}
+
+export async function approvePendingCustomer(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
+    let pendingDataTable = document.getElementById(PENDING_CUSTOMERS_DATA_TABLE_ID);
     let prevContent = pendingDataTable.innerHTML;
+
+    let customer = userData.rowPayload;
+    let dialog = getMdComponent(APPROVE_CUSTOMER_DATA_DIALOG_ID);
 
     //Get table data 
     try {
         pendingDataTable.innerHTML = getLoaderSvg(20, BLACK);
 
-        await approvePendingCustomersRestCall(email);
+        let email = customer['Email'];
+        let req = {email: email};
+        await approvePendingCustomersRestCall(req);
 
-        await refreshCustomerDataTable();
+        await refreshSection();
+
+        dialog.close();
 
     } catch(error) {
         console.error(error);
-
         pendingDataTable.innerHTML = prevContent;
+        dialog.close();
         showSnackBarError("Ops, si è verificato un errore");
     }
+
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
 }
 
-export async function declinePendingCustomer(customer){
+export async function declinePendingCustomer(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
     let pendingDataTable = document.getElementById(PENDING_CUSTOMERS_DATA_TABLE_ID);
-    let email = customer.email;
 
     let prevContent = pendingDataTable.innerHTML;
 
+    let customer = userData.rowPayload;
+    let dialog = getMdComponent(DECLINE_CUSTOMER_DATA_DIALOG_ID);
     //Get table data 
     try {
         pendingDataTable.innerHTML = getLoaderSvg(20, BLACK);
 
-        await declinePendingCustomersRestCall(email);
+        let email = customer['Email'];
+        let req = {email: email};
+        await declinePendingCustomersRestCall(req);
 
-        await refreshCustomerDataTable();
+        await refreshSection();
+        dialog.close();
     } catch(error) {
         console.error(error);
+        pendingDataTable.innerHTML = prevContent;
+        dialog.close();
+        showSnackBarError("Ops, si è verificato un errore");
+    }
 
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
+}
+
+export async function approvePendingOrder(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
+    let formNotValid = isApproveOrderDialogFormNotValid();
+
+    if(formNotValid){
+        enableButtonComponent(buttonCaller);
+        setButtonToReadyState(buttonCaller);
+
+        return;
+    }
+
+    //Get data from fields
+    let codiceTxt = getMdComponent(CODICE_TEXTFIELD_ID).value;
+    let importoAssicuratoTxt = getMdComponent(IMPORTO_ASSICURATO_TEXTFIELD_ID).value;
+
+    let pendingDataTable = document.getElementById(PENDING_ORDERS_DATA_TABLE_ID);
+    let order = userData.rowPayload;
+
+    let prevContent = pendingDataTable.innerHTML;
+    let dialog = getMdComponent(APPROVE_ORDER_DATA_DIALOG_ID);
+
+    //Get table data
+    try {
+        pendingDataTable.innerHTML = getLoaderSvg(20, BLACK);
+
+        let req = {
+                id: order['ID'],
+                req: {
+                    codice: codiceTxt,
+                    importoAssicurato: importoAssicuratoTxt,
+                    tracking: 1,
+
+                    // Optional
+        //            note: null,
+        //            servizioAccessorio: null,
+        //            stato: null,
+        //            updateShippingTs: true,
+        //            updateDeliveryTs: false
+                }
+            };
+        await approvePendingOrdersRestCall(req);
+
+        await refreshSection();
+        dialog.close();
+    } catch(error) {
+        console.error(error);
+        dialog.close();
         pendingDataTable.innerHTML = prevContent;
         showSnackBarError("Ops, si è verificato un errore");
     }
+
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
 }
 
-async function refreshCustomerDataTable(){
+export async function declinePendingOrder(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
+    let pendingDataTable = document.getElementById(PENDING_ORDERS_DATA_TABLE_ID);
+
+    let prevContent = pendingDataTable.innerHTML;
+    let order = userData.rowPayload;
+    let dialog = getMdComponent(DECLINE_ORDER_DATA_DIALOG_ID);
+    //Get table data
+    try {
+        pendingDataTable.innerHTML = getLoaderSvg(20, BLACK);
+
+        let req = {
+            id: order['ID'],
+            email: order['Cliente mittente']
+        }
+        await declinePendingOrdersRestCall(req);
+
+        await refreshSection();
+        dialog.close();
+    } catch(error) {
+        console.error(error);
+        dialog.close();
+        pendingDataTable.innerHTML = prevContent;
+        showSnackBarError("Ops, si è verificato un errore");
+    }
+
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
+}
+
+async function refreshDataTable(){
     let pendingDataTable = document.getElementById(PENDING_CUSTOMERS_DATA_TABLE_ID);
     let registredDataTable = document.getElementById(REGISTRED_CUSTOMERS_DATA_TABLE_ID);
     
@@ -172,7 +414,12 @@ async function refreshCustomerDataTable(){
     registredDataTable.innerHTML = getRegistedCustomersDataTable();
 }
 
-export async function tracerOrder(){
+export async function tracerOrder(buttonCallerId){
+    let buttonCaller = document.getElementById(buttonCallerId);
+
+    setButtonToLoadState(buttonCaller);
+    disableButtonComponent(buttonCaller);
+
     let mdcOrderCodeTextField = getMdComponent(ORDER_CODE_TEXTFIELD_ID);
 
     let orderCode = mdcOrderCodeTextField.value;
@@ -192,22 +439,22 @@ export async function tracerOrder(){
         return;
     }
 
-    let tracerOrderDataTable = document.getElementById(TRACE_ORDER_DATA_TABLE_ID);
-    let prevContent = tracerOrderDataTable.innerHTML;
-
+    let dialog = getMdComponent(DELIVERY_DATA_DIALOG_ID);
     //Get table data 
     try {
-        tracerOrderDataTable.innerHTML = getLoaderSvg(20, BLACK);
 
         await tracerOrderRestCall(orderCode, trackingState);
+        await refreshSection();
 
-        tracerOrderDataTable.innerHTML = getDataTable(userData.tracedOrders, language.tracedOrdersEmpty);
+        dialog.close();
     } catch(error) {
         console.error(error);
-
-        tracerOrderDataTable.innerHTML = prevContent;
+        dialog.close();
         showSnackBarError("Codice non presente");
-    }   
+    }
+
+    enableButtonComponent(buttonCaller);
+    setButtonToReadyState(buttonCaller);
 }
 
 export function openSelectableDropdown(buttonCallerId, dropdownId, attributeId){

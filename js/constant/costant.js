@@ -88,22 +88,26 @@
 
     export const PENDING_ORDERS_TAB_CONTENT_VIEW_ID = "pending-orders-tab-content-view-id";
     export const REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID = "registred-orders-tab-content-view-id";
-
     export const TRACE_ORDER_TAB_CONTENT_VIEW_ID = "trace-order-tab-content-view-id";
+
+    export const REPORT_TAB_CONTENT_VIEW_ID = "report-order-tab-content-view-id";
 
     //LOGO
     export const LOGO_ID = "logo-id";
     
     //BUTTONS
         //DATA TABLE
-            //Customer
-            export const APPROVE_PENDING_CUSTOMER_BUTTON_ID = "approve-pending-customer-button-id";
-            export const DECLINE_PENDING_CUSTOMER_BUTTON_ID = "decline-pending-customer-button-id";
-            //Order
-            export const APPROVE_PENDING_ORDER_BUTTON_ID = "approve-pending-order-button-id";
-            export const DECLINE_PENDING_ORDER_BUTTON_ID = "decline-pending-order-button-id";
+            //Admin operations
+            export const APPROVE_BUTTON_ID = "approve-button-id";
+            export const DECLINE_BUTTON_ID = "decline-button-id";
+
+            export const _APPROVE_BUTTON_ID = "-approve-button-id";
+            export const _DECLINE_BUTTON_ID = "-decline-button-id";
+            export const _NOTES_BUTTON_ID = "-decline-button-id";
+            export const _DETAIL_BUTTON_ID = "-detail-button-id";
 
             export const TRACE_ORDER_BUTTON_ID = "trace-order-button-id";
+            export const REPORT_ORDER_BUTTON_ID = "report-order-button-id";
 
         //TAB BAR BUTTONS
         export const PENDING_CUSTOMERS_TAB_BUTTON_ID = "pending-customers-tab-button-id";
@@ -112,6 +116,8 @@
         export const PENDING_ORDERS_TAB_BUTTON_ID = "pending-orders-tab-button-id";
         export const REGISTRED_ORDERS_TAB_BUTTON_ID = "registred-orders-tab-button-id";
         export const SEARCH_ORDER_TAB_BUTTON_ID = "search-order-tab-button-id";
+
+        export const REPORT_TAB_BUTTON_ID = "report-tab-button-id";
 
         //NAV BUTTONS
         export const ORDER_BUTTON_ID = "order-button-id";
@@ -122,12 +128,22 @@
         export const ORDER_BUTTON_ICON_ID = "order-button-icon-id";
         export const CUSTOMER_BUTTON_ICON_ID = "customer-button-icon-id";
         export const REFRESH_BUTTON_ICON_ID = "refresh-button-icon-id";
+        export const APPROVE_BUTTON_ICON_ID = "approve-button-icon-id";
+        export const DECLINE_BUTTON_ICON_ID = "decline-button-icon-id";
+        export const NOTES_BUTTON_ICON_ID = "notes-button-icon-id";
+        export const DELIVERY_BUTTON_ICON_ID = "delivery-button-icon-id";
 
         //DIALOG BUTTONS
         export const PALLET_OPEN_DIALOG_BUTTON_ID = "pallet-open-dialog-button-id";
         export const PALLET_CONFIRM_DIALOG_BUTTON_ID = "pallet-confirm-dialog-button-id";
         export const PALLET_DELETE_CARD_BUTTON_ID = "pallet-delete-card-button-id";
         export const LOGIN_DIALOG_BUTTON_ID = "login-dialog-button-id";
+        export const APPROVE_ORDER_DIALOG_BUTTON_ID = "approve-order-dialog-button-id";
+        export const APPROVE_CUSTOMER_DIALOG_BUTTON_ID = "approve-customer-dialog-button-id";
+        export const DECLINE_ORDER_DIALOG_BUTTON_ID = "decline-order-dialog-button-id";
+        export const DECLINE_CUSTOMER_DIALOG_BUTTON_ID = "decline-customer-dialog-button-id";
+        export const NOTES_DIALOG_BUTTON_ID = "notes-dialog-button-id";
+        export const DELIVERY_DIALOG_BUTTON_ID = "delivery-dialog-button-id";
 
         //DROPDOWN BUTTONS
         export const PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID = "pallet-open-dropdown-type-button-id";
@@ -147,7 +163,12 @@
         export const EPAL_TYPE_VALUE = "EPAL";
 
     //DIALOG
-    export const PALLET_DATA_DIALOG_ID = "pallet-data-dialog-id";
+    export const APPROVE_ORDER_DATA_DIALOG_ID = "approve-order-dialog-id";
+    export const APPROVE_CUSTOMER_DATA_DIALOG_ID = "approve-customer-dialog-id";
+    export const DECLINE_CUSTOMER_DATA_DIALOG_ID = "decline-customer-dialog-id";
+    export const DECLINE_ORDER_DATA_DIALOG_ID = "decline-order-dialog-id";
+    export const NOTES_DATA_DIALOG_ID = "notes-dialog-id";
+    export const DELIVERY_DATA_DIALOG_ID = "delivery-dialog-id";
     export const ERROR_DIALOG_ID = "error-dialog-id";
     export const LOGIN_DIALOG_ID = "login-dialog-id";
 
@@ -158,13 +179,27 @@
     export const TRACKING_STATE_DROPDOWN_ID = "tracking-state-dropdown-id";
     
     //TEXT FIELD ID
+        // CONFIRM ORDER
+        export const _TEXTFIELD_ID = "login-username-field-email-id";
+
         //LOGIN
         export const LOGIN_USERNAME_TEXTFIELD_ID = "login-username-field-email-id";
         export const LOGIN_PASSWORD_TEXTFIELD_ID = "login-password-field-email-id";
+        export const _PASSWORD_TEXTFIELD_ID = "login-password-field-email-id";
 
         //ORDERS
         export const ORDER_CODE_TEXTFIELD_ID = "order-code-field-email-id";
+        export const REPORT_EMAIL_TEXTFIELD_ID = "report-email-field-email-id";
 
+        // APPROVE ORDER
+        export const CODICE_TEXTFIELD_ID = "codice-field-id";
+        export const IMPORTO_CONTRASSEGNO_TEXTFIELD_ID = "importoContrassegno-field-id";
+        export const IMPORTO_ASSICURATO_TEXTFIELD_ID = "importoAssicurato-field-id";
+        export const CODICE_DOCUMENTO_TRASPORTO_TEXTFIELD_ID = "codiceDocumentoTrasporto-field-id";
+
+        // NOTES
+        export const NOTES_TEXTFIELD_ID = "notes-field-id";
+        export const NOTES_PRE_ID = "notes-pre-id";
 
         //USER
         export const EMAIL_TEXTFIELD_ID = "text-field-email-id";
@@ -192,6 +227,8 @@
             //TRANSPORT
             export const DELIVERY_DOCUMENT_TEXTFIELD_ID = "text-field-delivery-document-id";
             export const ORDER_NOTES_TEXTAREA_ID = "text-area-order-notes-id";
+            export const DATE_FROM_PICKER_ID = "date-from-picker-id";
+            export const DATE_TO_PICKER_ID = "date-to-picker-id";
 
     //TEXT
 
@@ -210,6 +247,7 @@
         export const CUSTOMER_VIEW_FORM_ID = "customer-view-form-id";
         export const ORDER_VIEW_FORM_ID = "order-view-form-id";
         export const TRACKING_VIEW_FORM_ID = "tracking-view-form-id";
+        export const REPORT_VIEW_FORM_ID = "tracking-view-form-id";
 
 
         //Pending
@@ -232,7 +270,8 @@ export const TAB_BAR_COMPONENT_TYPE = "TAB_BAR_COMPONENT_TYPE";
 export const DROPDOWN_COMPONENT_TYPE = "DROPDOWN_COMPONENT_TYPE";
 export const RADIOBUTTON_COMPONENT_TYPE = "RADIOBUTTON_COMPONENT_TYPE";
 
-//BUTTON TYPE 
+//BUTTON TYPE
+export const SVG_ICON = "BUTTON_SVG";
 export const BUTTON_ROUNDED = "BUTTON_ROUNDED";
 export const BUTTON_STANDARD = "BUTTON_STANDARD";
 export const BUTTON_TAB_BAR = "BUTTON_TAB_BAR";

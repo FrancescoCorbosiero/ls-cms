@@ -23,3 +23,7 @@ export function isMobilePhoneValid(stringToCheck){
 export function hasContent (stringToCheck) {
     return !isNullOrEmpty(stringToCheck);
 }
+
+export function isValidDate(date){
+    return isStringValidWithRegex(date, '^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$');
+}
