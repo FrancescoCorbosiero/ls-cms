@@ -1,4 +1,4 @@
-import { DELIVERY_DATA_DIALOG_ID, NOTES_PRE_ID, TRACE_ORDER_DATA_TABLE_ID, BUTTON_ROUNDED, TRACE_ORDER_TAB_CONTENT_VIEW_ID, DECLINE_CUSTOMER_DIALOG_BUTTON_ID, DECLINE_ORDER_DIALOG_BUTTON_ID, APPROVE_CUSTOMER_DIALOG_BUTTON_ID, NOTES_DIALOG_BUTTON_ID, APPROVE_ORDER_DIALOG_BUTTON_ID, ORDER_CODE_TEXTFIELD_ID, NOTES_TEXTFIELD_ID, CODICE_TEXTFIELD_ID, IMPORTO_CONTRASSEGNO_TEXTFIELD_ID, IMPORTO_ASSICURATO_TEXTFIELD_ID, CODICE_DOCUMENTO_TRASPORTO_TEXTFIELD_ID, TRACKING_STATE_ATTRIBUTE_ID, TRACKING_STATE_DROPDOWN_ID, TRACE_ORDER_BUTTON_ID, TRACKING_STATE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SERVICE_TYPE_ATTRIBUTE_ID, SERVICE_DROPDOWN_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, APP_ID, BUTTON_STANDARD, DIALOG_COMPONENT_TYPE, ERROR_DIALOG_TITLE_ID, LOGIN_DIALOG_BUTTON_ID, LOGIN_PASSWORD_TEXTFIELD_ID, LOGIN_USERNAME_TEXTFIELD_ID, PALLET_CONFIRM_DIALOG_BUTTON_ID, PALLET_DIALOG_TITLE_ID, PALLET_HEIGHT_TEXTFIELD_ID, PALLET_LENGHT_TEXTFIELD_ID, PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID, PALLET_QUANTITY_TEXTFIELD_ID, PALLET_TYPE_DROPDOWN_ID, PALLET_WEIGHT_TEXTFIELD_ID, PALLET_WIDTH_TEXTFIELD_ID } from "../../constant/costant.js";
+import { DIV_SPEDIZIONE_DETAIL_ID, DIV_COLLI_DETAIL_ID, DIV_PALLET_DETAIL_ID, DELIVERY_DATA_DIALOG_ID, NOTES_PRE_ID, TRACE_ORDER_DATA_TABLE_ID, BUTTON_ROUNDED, TRACE_ORDER_TAB_CONTENT_VIEW_ID, DECLINE_CUSTOMER_DIALOG_BUTTON_ID, DECLINE_ORDER_DIALOG_BUTTON_ID, APPROVE_CUSTOMER_DIALOG_BUTTON_ID, NOTES_DIALOG_BUTTON_ID, APPROVE_ORDER_DIALOG_BUTTON_ID, ORDER_CODE_TEXTFIELD_ID, NOTES_TEXTFIELD_ID, CODICE_TEXTFIELD_ID, IMPORTO_CONTRASSEGNO_TEXTFIELD_ID, IMPORTO_ASSICURATO_TEXTFIELD_ID, CODICE_DOCUMENTO_TRASPORTO_TEXTFIELD_ID, TRACKING_STATE_ATTRIBUTE_ID, TRACKING_STATE_DROPDOWN_ID, TRACE_ORDER_BUTTON_ID, TRACKING_STATE_OPEN_DROPDOWN_TYPE_BUTTON_ID, SERVICE_TYPE_ATTRIBUTE_ID, SERVICE_DROPDOWN_ID, SERVICE_OPEN_DROPDOWN_TYPE_BUTTON_ID, APP_ID, BUTTON_STANDARD, DIALOG_COMPONENT_TYPE, ERROR_DIALOG_TITLE_ID, LOGIN_DIALOG_BUTTON_ID, LOGIN_PASSWORD_TEXTFIELD_ID, LOGIN_USERNAME_TEXTFIELD_ID, PALLET_CONFIRM_DIALOG_BUTTON_ID, PALLET_DIALOG_TITLE_ID, PALLET_HEIGHT_TEXTFIELD_ID, PALLET_LENGHT_TEXTFIELD_ID, PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID, PALLET_QUANTITY_TEXTFIELD_ID, PALLET_TYPE_DROPDOWN_ID, PALLET_WEIGHT_TEXTFIELD_ID, PALLET_WIDTH_TEXTFIELD_ID } from "../../constant/costant.js";
 import { language } from "../../constant/language-messages.js";
 import { tracerOrder, getNotes, updateNotes, openSelectableDropdown, executeLogin, approvePendingOrder, approvePendingCustomer, declinePendingCustomer, declinePendingOrder } from "../../function/component-handler.js";
 import { addMdComponentToInit } from "../data/component-data.js";
@@ -354,6 +354,67 @@ export function createDeliveryDialog(id){
                                            functionToCall: () => tracerOrder(TRACE_ORDER_BUTTON_ID)
                                        }
                                    )}
+                            </div>
+                        </div>
+                        <div class="mdc-dialog__scrim"></div>
+
+                </div>`;
+    createDialogComponent(id, dialog);
+}
+
+export function createDetailDialog(id){
+    let dialog = `
+                <style>
+                .details-container {
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 20px;
+                    margin: 20px auto;
+                    max-width: 600px;
+                }
+
+                .details-label {
+                    font-weight: bold;
+                }
+
+                .details-value {
+                    margin-left: 10px;
+                    color: #666;
+                }
+                </style>
+                <div class="mdc-dialog" id=${id}>
+                    <div class="mdc-dialog__container">
+                        <div class="mdc-dialog__surface"
+                            role="alertdialog"
+                            aria-modal="true"
+                            aria-labelledby="my-dialog-title"
+                            aria-describedby="my-dialog-content">
+                            <!-- TITLE -->
+                            <h2 class="mdc-dialog__title">${language.detailDialogTitle}</h2>
+                            <!-- CONTENT -->
+                            <div class="mdc-dialog__content" id="my-dialog-content">
+                                <h1>Dettaglio Spedizione</h1>
+                                <div class="details-container" id="${DIV_SPEDIZIONE_DETAIL_ID}">
+                                </div>
+
+                                <br>
+
+                                <h1>Dettaglio Colli</h1>
+                                <div class="details-container" id="${DIV_COLLI_DETAIL_ID}">
+                                </div>
+
+                                <br>
+
+                                <h1>Pallets</h1>
+                                <div class="details-container" id="${DIV_PALLET_DETAIL_ID}">
+                                </div>
+                            </div>
+                            <div class="mdc-dialog__actions">
+                                   <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="cancel">
+                                       <div class="mdc-button__ripple"></div>
+                                       <span class="mdc-button__label">${language.dialogClose}</span>
+                                   </button>
                             </div>
                         </div>
                         <div class="mdc-dialog__scrim"></div>

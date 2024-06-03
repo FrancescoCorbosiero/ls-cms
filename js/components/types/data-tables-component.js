@@ -1,7 +1,7 @@
-import { NOTES_DATA_DIALOG_ID, DELIVERY_DATA_DIALOG_ID, APPROVE_ORDER_DATA_DIALOG_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, DECLINE_CUSTOMER_DATA_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, SVG_ICON, REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID, REGISTRED_ORDERS_DATA_TABLE_ID, APPROVE_BUTTON_ID, _APPROVE_BUTTON_ID, BUTTON_STANDARD, DECLINE_BUTTON_ID, _DECLINE_BUTTON_ID, _NOTES_BUTTON_ID, LOGIN_DIALOG_BUTTON_ID } from "../../constant/costant.js";
+import { NOTES_DATA_DIALOG_ID, DELIVERY_DATA_DIALOG_ID, APPROVE_ORDER_DATA_DIALOG_ID, APPROVE_CUSTOMER_DATA_DIALOG_ID, DECLINE_CUSTOMER_DATA_DIALOG_ID, DECLINE_ORDER_DATA_DIALOG_ID, SVG_ICON, REGISTRED_ORDERS_TAB_CONTENT_VIEW_ID, REGISTRED_ORDERS_DATA_TABLE_ID, APPROVE_BUTTON_ID, _APPROVE_BUTTON_ID, BUTTON_STANDARD, DECLINE_BUTTON_ID, _DECLINE_BUTTON_ID, _DETAIL_BUTTON_ID, _NOTES_BUTTON_ID, LOGIN_DIALOG_BUTTON_ID } from "../../constant/costant.js";
 import { language } from "../../constant/language-messages.js";
-import { OK_SVG, DECLINE_SVG, NOTES_SVG, DELIVERY_SVG} from "../../constant/svg.js";
-import { approvePendingCustomer, declinePendingCustomer, approvePendingOrder, declinePendingOrder, openDialog, openNotesDialog, openDeliveryDialog  } from "../../function/component-handler.js";
+import { OK_SVG, DECLINE_SVG, NOTES_SVG, DELIVERY_SVG, DETAIL_SVG} from "../../constant/svg.js";
+import { approvePendingCustomer, declinePendingCustomer, approvePendingOrder, declinePendingOrder, openDialog, openNotesDialog, openDeliveryDialog, openDetailDialog } from "../../function/component-handler.js";
 import { isArrayNullOrEmpty, isArrayOk } from "../../utility/array-util.js";
 import { userData } from "../data/user-data.js";
 import { countNext, resetCounter } from "../data/counter.js";
@@ -145,6 +145,7 @@ export function getPendingCustomersDataTable(){
 }
 
 export function getRegistedOrdersDataTable(){
+    let fullOrderList = userData.registredOrders;
     let dataObject = userData.registredOrders.map(order => ({
                                                     'ID': order.id,
                                                     'Codice': order.codice,
@@ -198,6 +199,14 @@ export function getRegistedOrdersDataTable(){
                             functionToCall: () => openNotesDialog(order)
                         }
                     )}
+                    ${createFunctionButton(
+                        {
+                            id: countNext() + "-registered" + _DETAIL_BUTTON_ID,
+                            svg: DETAIL_SVG,
+                            type: SVG_ICON,
+                            functionToCall: () => openDetailDialog(fullOrderList.find(fullOrder => fullOrder.id == order['ID']).codice)
+                        }
+                    )}
                 </td>`;
 
             Object.entries(order).forEach(([key, value]) => {
@@ -227,6 +236,7 @@ export function getRegistedOrdersDataTable(){
 }
 
 export function getPendingOrdersDataTable(){
+    let fullOrderList = userData.pendingOrders;
     let dataObject = userData.pendingOrders.map(order => ({
                                                     'ID': order.id,
                                                     'Codice': order.codice.includes("TEMP") ? "-" : order.codice,
@@ -278,6 +288,14 @@ export function getPendingOrdersDataTable(){
                         svg: DECLINE_SVG,
                         type: SVG_ICON,
                         functionToCall: () => openDialog(DECLINE_ORDER_DATA_DIALOG_ID, order)
+                    }
+                )}
+                ${createFunctionButton(
+                    {
+                        id: countNext() + "-pending" + _DETAIL_BUTTON_ID,
+                        svg: DETAIL_SVG,
+                        type: SVG_ICON,
+                        functionToCall: () => openDetailDialog(fullOrderList.find(fullOrder => fullOrder.id == order['ID']).codice)
                     }
                 )}
             </td>`;

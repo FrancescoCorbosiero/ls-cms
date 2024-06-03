@@ -131,6 +131,7 @@
         export const APPROVE_BUTTON_ICON_ID = "approve-button-icon-id";
         export const DECLINE_BUTTON_ICON_ID = "decline-button-icon-id";
         export const NOTES_BUTTON_ICON_ID = "notes-button-icon-id";
+        export const DETAIL_BUTTON_ICON_ID = "detail-button-icon-id";
         export const DELIVERY_BUTTON_ICON_ID = "delivery-button-icon-id";
 
         //DIALOG BUTTONS
@@ -144,6 +145,7 @@
         export const DECLINE_CUSTOMER_DIALOG_BUTTON_ID = "decline-customer-dialog-button-id";
         export const NOTES_DIALOG_BUTTON_ID = "notes-dialog-button-id";
         export const DELIVERY_DIALOG_BUTTON_ID = "delivery-dialog-button-id";
+        export const DETAIL_DIALOG_BUTTON_ID = "detail-dialog-button-id";
 
         //DROPDOWN BUTTONS
         export const PALLET_OPEN_DROPDOWN_TYPE_BUTTON_ID = "pallet-open-dropdown-type-button-id";
@@ -168,6 +170,7 @@
     export const DECLINE_CUSTOMER_DATA_DIALOG_ID = "decline-customer-dialog-id";
     export const DECLINE_ORDER_DATA_DIALOG_ID = "decline-order-dialog-id";
     export const NOTES_DATA_DIALOG_ID = "notes-dialog-id";
+    export const DETAIL_DATA_DIALOG_ID = "detail-dialog-id";
     export const DELIVERY_DATA_DIALOG_ID = "delivery-dialog-id";
     export const ERROR_DIALOG_ID = "error-dialog-id";
     export const LOGIN_DIALOG_ID = "login-dialog-id";
@@ -259,6 +262,11 @@
         export const ORDER_FORM_ID = "order-form-id";
         export const RECIPIENT_FORM_ID = "recipient-form-id";
         export const ORDER_EMAIL_SENT_FORM_ID = "order-email-sent-form-id";
+
+        //Detail
+        export const DIV_SPEDIZIONE_DETAIL_ID = "div-spedizione-detail-id";
+        export const DIV_COLLI_DETAIL_ID = "div-colli-detail-id";
+        export const DIV_PALLET_DETAIL_ID = "div-pallet-detail-id";
 
 
 //MD COMPONENTS TYPES

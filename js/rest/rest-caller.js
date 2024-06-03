@@ -1,5 +1,5 @@
 import { userData } from "../components/data/user-data.js";
-import { REPORT_URL, NOTES_URL, UPDATE_NOTES_URL, APPROVE_PEDING_ORDERS_URL, DECLINE_PEDING_ORDERS_URL, APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_ORDERS_URL, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, ACCESSORY_SERVICE_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
+import { REPORT_URL, NOTES_URL, UPDATE_NOTES_URL, DETAIL_URL, APPROVE_PEDING_ORDERS_URL, DECLINE_PEDING_ORDERS_URL, APPROVE_PEDING_CUSTOMERS_URL, DECLINE_PEDING_CUSTOMERS_URL, GET, LOGIN_URL, PENDING_CUSTOMERS_URL, PENDING_ORDERS_URL, POST, REGISTRED_ORDERS_URL, REGISTRED_CUSTOMERS_URL, TRACE_ORDERS_URL, ACCESSORY_SERVICE_URL, TRACKING_STATES_URL} from "../constant/rest-constant.js";
 import { getLoginRequest } from "./dto/login-request.js";
 import { getTracerOrderRequest } from "./dto/order-request.js";
 import { initServiceDropDownData } from "../components/data/component-data.js";
@@ -93,6 +93,16 @@ export async function getNotesRestCall(req){
 
 export async function updateNotesRestCall(req){
     await doPostAuthRestCall(UPDATE_NOTES_URL, req);
+}
+
+// DETAIL
+export async function getOrderDetailRestCall(codice){
+    let req = {
+        codice: codice
+    };
+    let response = await doPostAuthRestCall(DETAIL_URL, req);
+    let responseJson = await response.json();
+    return responseJson;
 }
 
 // REPORT

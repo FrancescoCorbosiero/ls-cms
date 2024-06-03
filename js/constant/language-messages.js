@@ -42,6 +42,7 @@ const jsonMessagesItalian = {
         approveOrderDialogTitle: "Approva ordine",
         traceOrderDialogTitle: "Imposta tracking",
         updateNotesDialogTitle: "Aggiorna note",
+        detailDialogTitle: "Dettaglio",
 
         errorDialogText: 
         `Ops, si è verificato un errore riprova più tardi. 

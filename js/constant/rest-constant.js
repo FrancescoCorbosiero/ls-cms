@@ -24,6 +24,9 @@ export const HOST = `http://uat-sanchez-logistica.eu-north-1.elasticbeanstalk.co
     export const NOTES_URL = HOST + `/mono/cms/notes`;
     export const UPDATE_NOTES_URL = HOST + `/mono/cms/notes/update`;
 
+    // DETAIL
+    export const DETAIL_URL = HOST + `/mono/api/order/detail`;
+
     // REPORT
     export const REPORT_URL = HOST + `/mono/cms/order/report`;
 
