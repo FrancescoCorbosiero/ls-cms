@@ -1,5 +1,6 @@
 //URLS
 export const HOST = `http://uat-sanchez-logistica.eu-north-1.elasticbeanstalk.com`;
+//export const HOST = `https://api.logisticasanchez.com`;
 
     //LOGIN
     export const LOGIN_URL = HOST + `/mono/auth/login`;
